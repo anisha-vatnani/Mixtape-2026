@@ -13,24 +13,24 @@
 body {
   background: #fff3e9;
   display: flex;
-  flex-direction: column; /* stack image and mini-player */
+  flex-direction: column; 
   align-items: center;
-  justify-content: flex-start; /* stick to top for mobile */
+  justify-content: center; /* vertical centering */
   min-height: 100vh;
-  padding-top: 40px; /* small top spacing */
+  padding: 20px; /* small top/bottom spacing */
 }
 
 /* Main play image */
 .play-image {
-  width: 90vw;          /* nearly full width on phones */
-  max-width: 500px;     /* cap on desktop */
+  width: 90vw;          
+  max-width: 500px;     
   cursor: pointer;
   transition: transform 0.15s ease;
-  margin-bottom: 15px;  /* space between image and mini-player */
+  margin-bottom: 15px;  
 }
 
 .play-image.track-image {
-  width: 65vw;          /* scaled down when track image shows */
+  width: 65vw;          
   max-width: 300px;
 }
 
@@ -50,7 +50,7 @@ body {
 
 /* Mini-player */
 .mini-player {
-  width: 95%;             /* almost full width on mobile */
+  width: 95%;             
   max-width: 400px;
   padding: 10px 14px;
   background: rgba(236, 212, 180, 0.95);
@@ -60,8 +60,8 @@ body {
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
-  margin-bottom: 20px;    /* small bottom spacing */
-  position: relative;     /* no fixed bottom, easier for mobile spacing */
+  margin-bottom: 20px;    
+  position: relative;     
 }
 
 /* Mini-player info */
@@ -105,7 +105,7 @@ body {
 /* Media query for small screens */
 @media (max-width: 480px) {
   body {
-    padding-top: 20px;
+    padding: 20px 10px;
   }
 
   .play-image {
@@ -128,6 +128,7 @@ body {
     font-size: 16px;
   }
 }
+
 
 
   </style>
