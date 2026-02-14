@@ -4,63 +4,67 @@
   <meta charset="UTF-8" />
   <title>tiny player</title>
   <style>
-   * {
+* {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  height: 100vh;
   background: #fff3e9;
   display: flex;
+  flex-direction: column; /* stack image and mini-player */
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* stick to top for mobile */
+  min-height: 100vh;
+  padding-top: 40px; /* small top spacing */
 }
 
+/* Main play image */
 .play-image {
-  width: 80vw; /* 80% of viewport width */
-  max-width: 500px; /* cap at 500px for big screens */
+  width: 90vw;          /* nearly full width on phones */
+  max-width: 500px;     /* cap on desktop */
   cursor: pointer;
   transition: transform 0.15s ease;
+  margin-bottom: 15px;  /* space between image and mini-player */
 }
 
 .play-image.track-image {
-  width: 50vw;  /* 50% of viewport width */
-  max-width: 300px; /* cap at 300px for big screens */
+  width: 65vw;          /* scaled down when track image shows */
+  max-width: 300px;
 }
-
 
 .play-image:hover {
   transform: scale(1.05) rotate(-2deg);
 }
 
+/* Track title */
 .track-title {
-  position: absolute;
-  top: 80px;              /* adjust spacing */
   font-size: 18px;
   font-weight: 500;
   color: #333;
   text-align: center;
   width: 100%;
+  margin-bottom: 10px;
 }
 
+/* Mini-player */
 .mini-player {
-  position: fixed;
-  bottom: 120px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
+  width: 95%;             /* almost full width on mobile */
   max-width: 400px;
-  padding: 12px 16px;
-  background: rgba(236, 212, 180, 0.85);
+  padding: 10px 14px;
+  background: rgba(236, 212, 180, 0.95);
   backdrop-filter: blur(10px);
   border-radius: 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
+  margin-bottom: 20px;    /* small bottom spacing */
+  position: relative;     /* no fixed bottom, easier for mobile spacing */
 }
 
+/* Mini-player info */
 .mini-info {
   display: flex;
   flex-direction: column;
@@ -80,6 +84,7 @@ body {
   opacity: 0.7;
 }
 
+/* Mini-play button */
 .mini-play-btn {
   border: none;
   background: #6e93ef;
@@ -97,26 +102,33 @@ body {
   background: #5977c2;
 }
 
+/* Media query for small screens */
 @media (max-width: 480px) {
-  .mini-player {
-    font-size: 12px;
-    padding: 10px 12px;
-  }
-
-  .mini-play-btn {
-    width: 30px;
-    height: 30px;
-    font-size: 16px;
+  body {
+    padding-top: 20px;
   }
 
   .play-image {
-    width: 90vw;
+    width: 95vw;
   }
 
   .play-image.track-image {
-    width: 60vw;
+    width: 80vw;
+  }
+
+  .mini-player {
+    width: 98%;
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .mini-play-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
   }
 }
+
 
   </style>
 </head>
