@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>tiny player</title>
+  <style>
+   * {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: #fff3e9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-image {
+  width: 500px;        /* adjust to your PNG size */
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.play-image.track-image {
+  width: 300px;   /* slightly smaller */
+}
+
+.play-image:hover {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+.track-title {
+  position: absolute;
+  top: 80px;              /* adjust spacing */
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  text-align: center;
+  width: 100%;
+}
+
+.mini-player {
+  position: fixed;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 300px;
+  padding: 14px 20px;
+  background: rgba(236, 212, 180, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.mini-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.mini-title {
+  font-weight: 600;
+}
+
+.mini-artist {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.mini-time {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+
+  </style>
+</head>
+<body>
+
+ <img
+  src="play.png"
+  alt="player"
+  id="playImage"
+  class="play-image"
+/>
+
+<audio id="audio"></audio>
+
+<div class="mini-player">
+  <div class="mini-info">
+    <div id="miniTitle" class="mini-title">–</div>
+    <div id="miniArtist" class="mini-artist">–</div>
+  </div>
+
+  <div class="mini-time">
+    <span id="currentTime">0:00</span>
+    <span>/</span>
+    <span id="duration">0:00</span>
+  </div>
+</div>
+
+  <script>
+const tracks = [
+  { audio: "track_1.mp3", image: "img_1.png", title: "@elio.irl", artist:"ELIO" },
+  { audio: "track_2.mp3", image: "img_2.png", title: "Sadqay", artist:"Aashir Wajahat, NAYEL, and Nehaal Naseem" },
+  { audio: "track_3.mp3", image: "img_3.png", title: "Adore U", artist:"Khalid" },
+  { audio: "track_4.mp3", image: "img_4.png", title: "Snap My Finger", artist:"KAYTRANADA ft. PinkPanthress " },
+  { audio: "track_5.mp3", image: "img_5.png", title: "Cariño" , artist:"THE MARIAAASSSSS"},
+  { audio: "track_6.mp3", image: "img_6.png", title: "Love Me Not", artist:"Ravyn Lenae" },
+  { audio: "track_7.mp3", image: "img_7.png", title: "Cheese", artist:"ChillBazaar, Izzchughtai, and Marshall Ahmad" },
+  { audio: "track_8.mp3", image: "img_8.png", title: "Junoon" , artist:"ChillBazaar, Izzchughtai, and Marshall Ahmad"},
+  { audio: "track_9.mp3", image: "img_9.png", title: "Uff Teri Adaa" , artist:"Alyssa Mendonsa and Shankar Mahadevan"},
+  { audio: "track_10.mp3", image: "img_10.png", title: "Naazni", artist:"Aashir Wajahat, Abdullah Siddiqui, and Annural Khalid" },
+  { audio: "track_11.mp3", image: "img_11.png", title: "Ullu Ka Patha" , artist:"Arijit Singh and Nikhita Gandhi"},
+  { audio: "track_12.mp3", image: "img_12.png", title: "Jhol", artist:"Annural Khalid hehe and Maanu" },
+  { audio: "track_13.mp3", image: "img_13.png", title: "Heavy" , artist:"The Marias :)"}
+];
+
+
+  let currentTrackIndex = 0;
+
+  const audio = document.getElementById("audio");
+  const playImage = document.getElementById("playImage");
+  const trackTitle = document.getElementById("trackTitle");
+  const miniTitle = document.getElementById("miniTitle");
+const miniArtist = document.getElementById("miniArtist");
+const currentTimeEl = document.getElementById("currentTime");
+const durationEl = document.getElementById("duration");
+
+
+  function playNextTrack() {
+
+  // If we've reached the end, reset everything
+  if (currentTrackIndex >= tracks.length) {
+    audio.pause();          
+    audio.currentTime = 0;  
+
+    playImage.src = "play.png";
+    playImage.classList.remove("track-image");
+
+    trackTitle.textContent = "";
+miniTitle.textContent = "–";
+miniArtist.textContent = "–";
+currentTimeEl.textContent = "0:00";
+durationEl.textContent = "0:00";
+
+    currentTrackIndex = 0;
+    return;
+  }
+
+  const current = tracks[currentTrackIndex];
+  miniTitle.textContent = current.title;
+miniArtist.textContent = current.artist;
+
+
+  audio.src = current.audio;
+  audio.currentTime = 0;
+  audio.play();
+
+  playImage.src = current.image;
+  playImage.classList.add("track-image");
+
+  currentTrackIndex++;
+
+  trackTitle.textContent = current.title;
+}
+
+function formatTime(time) {
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60)
+    .toString()
+    .padStart(2, "0");
+  return `${minutes}:${seconds}`;
+}
+
+
+// click advances
+playImage.addEventListener("click", () => {
+  playNextTrack();
+});
+
+// auto-advance when track ends
+audio.addEventListener("loadedmetadata", () => {
+  durationEl.textContent = formatTime(audio.duration);
+});
+audio.addEventListener("ended", () => {
+  playNextTrack();
+});
+audio.addEventListener("timeupdate", () => {
+  currentTimeEl.textContent = formatTime(audio.currentTime);
+});
+
+
+
+</script>
+
+
+
+</body>
+</html>
