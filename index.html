@@ -149,7 +149,7 @@ const tracks = [
 const miniArtist = document.getElementById("miniArtist");
 const currentTimeEl = document.getElementById("currentTime");
 const durationEl = document.getElementById("duration");
-
+const miniPlayBtn = document.getElementById("miniPlayBtn");
 
   function playNextTrack() {
 
@@ -195,6 +195,16 @@ function formatTime(time) {
     .padStart(2, "0");
   return `${minutes}:${seconds}`;
 }
+
+miniPlayBtn.addEventListener("click", () => {
+  if (audio.paused) {
+    audio.play();
+    miniPlayBtn.textContent = "⏸";  // change to pause icon
+  } else {
+    audio.pause();
+    miniPlayBtn.textContent = "▶";  // change to play icon
+  }
+});
 
 
 // click advances
