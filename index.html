@@ -197,14 +197,22 @@ function formatTime(time) {
 }
 
 miniPlayBtn.addEventListener("click", () => {
-  if (audio.paused) {
-    audio.play();
-    miniPlayBtn.textContent = "⏸";  // change to pause icon
-  } else {
+  // If no track has started yet, start the first track
+  if (!audio.src) {
+    playNextTrack();
+    return;
+  }
+
+  // If track is playing, pause it
+  if (!audio.paused) {
     audio.pause();
-    miniPlayBtn.textContent = "▶";  // change to play icon
+    miniPlayBtn.textContent = "▶";  // show play icon
+  } else {
+    audio.play();
+    miniPlayBtn.textContent = "⏸";  // show pause icon
   }
 });
+
 
 
 // click advances
@@ -223,7 +231,17 @@ audio.addEventListener("timeupdate", () => {
   currentTimeEl.textContent = formatTime(audio.currentTime);
 });
 
+audio.addEventListener("play", () => {
+  miniPlayBtn.textContent = "⏸";
+});
 
+audio.addEventListener("pause", () => {
+  miniPlayBtn.textContent = "▶";
+});
+
+audio.addEventListener("ended", () => {
+  miniPlayBtn.textContent = "▶";
+});
 
 </script>
 
